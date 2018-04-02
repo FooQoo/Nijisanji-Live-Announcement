@@ -120,7 +120,6 @@ if __name__ == '__main__':
     access_token = os.environ.get('access_token')
     access_secret= os.environ.get('access_secret')
     screen_name  = os.environ.get('screen_name')
-    fixed_tweet  = os.environ.get('fixed_tweet')
 
     JST = timezone('Asia/Tokyo')
 
