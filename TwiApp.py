@@ -95,6 +95,14 @@ class TwiApp:
 
         req = twitter.post(url)
 
+    def Unretweets(self,TID):
+
+        url = "https://api.twitter.com/1.1/statuses/unretweet/%s.json" % TID
+
+        twitter = OAuth1Session(self.api_key, self.api_secret, self.access_token, self.access_secret)
+
+        req = twitter.post(url)
+
 def isSchedule(txt):
 
     p_time = re.compile(r"[0-9]+時[^間]|[0-9]+:[0-9]+")
@@ -112,6 +120,7 @@ if __name__ == '__main__':
     access_token = os.environ.get('access_token')
     access_secret= os.environ.get('access_secret')
     screen_name  = os.environ.get('screen_name')
+    fixed_tweet  = os.environ.get('fixed_tweet')
 
     JST = timezone('Asia/Tokyo')
 
@@ -120,10 +129,14 @@ if __name__ == '__main__':
     now = now.replace(minute=(now.minute // 15) * 15)
 
     twiApp = TwiApp(screen_name, api_key, api_secret, access_token, access_secret)
+
+    # get Nijisanji member's IDs.
     twiApp.get_friends()
 
+    # get their tweets.
     tweets = twiApp.getUsertweets(now)
 
+    # RT tweets related their schedule.
     for tweet in tweets:
 
         if isSchedule(tweet['Tweet']):
